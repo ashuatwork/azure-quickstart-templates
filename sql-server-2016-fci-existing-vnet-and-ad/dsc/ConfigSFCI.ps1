@@ -168,7 +168,7 @@ configuration ConfigSFCI
 
         Script CleanSQL
         {
-            SetScript = 'C:\SQLServer_13.0_Full\Setup.exe /Action=Uninstall /FEATURES=SQL,AS,RS,IS /INSTANCENAME=MSSQLSERVER /Q'
+            SetScript = 'C:\SQLServerFull\Setup.exe /Action=Uninstall /FEATURES=SQL,AS,RS,IS /INSTANCENAME=MSSQLSERVER /Q'
             TestScript = '(test-path -Path "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\master.mdf") -eq $false'
             GetScript = '@{Ensure = if ((test-path -Path "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\DATA\master.mdf") -eq $false) {"Present"} Else {"Absent"}}'
             DependsOn = "[Script]EnableS2D"
@@ -193,13 +193,14 @@ configuration ConfigSFCI
             DependsOn = "[Script]MoveClusterGroups2"
             Action = "Prepare"
             SourcePath = "C:\"
-            SourceFolder = "SQLServer_13.0_Full"
+            SourceFolder = "SQLServerFull"
             UpdateSource = ""
             SetupCredential = $DomainCreds
             Features = "SQLENGINE,AS"
             InstanceName = "MSSQLSERVER"
             FailoverClusterNetworkName = "SQLFCI"
             SQLSvcAccount = $ServiceCreds
+	    
         }
 
         xFirewall SQLFirewall
@@ -236,7 +237,7 @@ configuration ConfigSFCI
             DependsOn = "[Script]MoveClusterGroups3"
             Action = "Complete"
             SourcePath = "C:\"
-            SourceFolder = "SQLServer_13.0_Full"
+            SourceFolder = "SQLServerFull"
             UpdateSource = ""
             SetupCredential = $DomainCreds
             Features = "SQLENGINE,AS"
